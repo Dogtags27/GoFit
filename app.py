@@ -18,7 +18,7 @@ import requests
 
 app = Flask(__name__)
 
-model_gdrive_path = "https://drive.google.com/file/d/1KtANvt9plFhGHohOokbR82duH77JbE7i/view?usp=sharing"
+model_gdrive_path = "https://drive.google.com/uc?id=1KtANvt9plFhGHohOokbR82duH77JbE7i"
 local_model_path = "./FoodClassifier.h5"
 # Function to download the model if it doesn't exist locally
 def download_model():
