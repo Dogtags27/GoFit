@@ -23,8 +23,8 @@ local_model_path = "./FoodClassifier.h5"
 # Function to download the model if it doesn't exist locally
 def download_model():
     if not os.path.exists(local_model_path):
-        url = f'https://drive.google.com/uc?id={model_gdrive_path}'
-        gdown.download(url, local_model_path, quiet=False)
+        # url = f'https://drive.google.com/uc?id={model_gdrive_path}'
+        gdown.download(model_gdrive_path, local_model_path, quiet=False)
         
 def load_model_from_file():
     if not os.path.exists(local_model_path):
