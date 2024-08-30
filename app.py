@@ -42,7 +42,7 @@ category={
     13: ['masala_dosa','Masala Dosa'], 14: ['momos','Momos'], 15: ['paani_puri','Paani Puri'],
     16: ['pakode','Pakode'], 17: ['pav_bhaji','Pav Bhaji'], 18: ['pizza','Pizza'], 19: ['samosa','Samosa']
 }
-
+#Null
 def predict_image(filename,model):
     img_ = filename
     img_array = image.img_to_array(img_)
