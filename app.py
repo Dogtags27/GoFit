@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from io import BytesIO
 import numpy as np
+import gdown
 import os
 from PIL import Image
 import io
@@ -17,8 +18,21 @@ import requests
 
 app = Flask(__name__)
 
+model_gdrive_path = "https://drive.google.com/file/d/1KtANvt9plFhGHohOokbR82duH77JbE7i/view?usp=sharing"
+local_model_path = "./FoodClassifier.h5"
+# Function to download the model if it doesn't exist locally
+def download_model():
+    if not os.path.exists(local_model_path):
+        url = f'https://drive.google.com/uc?id={model_gdrive_path}'
+        gdown.download(url, local_model_path, quiet=False)
+        
+def load_model_from_file():
+    if not os.path.exists(local_model_path):
+        download_model()
+    model = load_model(local_model_path)
+    return model
 # Load the model
-model = load_model('./FoodClassifier.h5')
+model = load_model_from_file()
 
 category={
     0: ['burger','Burger'], 1: ['butter_naan','Butter Naan'], 2: ['chai','Chai'],
