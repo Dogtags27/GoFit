@@ -18,22 +18,57 @@ import requests
 
 app = Flask(__name__)
 
-model_gdrive_path = "https://drive.google.com/uc?id=1KtANvt9plFhGHohOokbR82duH77JbE7i"
-local_model_path = "./FoodClassifier.h5"
-# Function to download the model if it doesn't exist locally
-def download_model():
-    if not os.path.exists(local_model_path):
-        # url = f'https://drive.google.com/uc?id={model_gdrive_path}'
-        gdown.download(model_gdrive_path, local_model_path, quiet=False)
+# model_gdrive_path = "https://drive.google.com/uc?id=1KtANvt9plFhGHohOokbR82duH77JbE7i"
+# local_model_path = "./FoodClassifier.h5"
+# # Function to download the model if it doesn't exist locally
+# def download_model():
+#     if not os.path.exists(local_model_path):
+#         # url = f'https://drive.google.com/uc?id={model_gdrive_path}'
+#         gdown.download(model_gdrive_path, local_model_path, quiet=False)
         
-def load_model_from_file():
-    if not os.path.exists(local_model_path):
-        download_model()
-    model = load_model(local_model_path)
-    return model
-# Load the model
-model = load_model_from_file()
+# def load_model_from_file():
+#     if not os.path.exists(local_model_path):
+#         download_model()
+#     model = load_model(local_model_path)
+#     return model
+# # Load the model
+# model = load_model_from_file()
+##############
 
+def download_model_from_dropbox(dropbox_url, local_file_path):
+    # Download the file from Dropbox
+    response = requests.get(dropbox_url, stream=True)
+    if response.status_code == 200:
+        with open(local_file_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+        print(f"Model downloaded successfully and saved to {local_file_path}")
+    else:
+        print(f"Failed to download file. Status code: {response.status_code}")
+
+def load_model_from_file(local_file_path):
+    # Load the model from the file
+    if os.path.exists(local_file_path):
+        model = load_model(local_file_path)
+        print("Model loaded successfully.")
+        return model
+    else:
+        print(f"File not found: {local_file_path}")
+        return None
+
+# Define the Dropbox URL and local file path
+dropbox_url = 'https://www.dropbox.com/scl/fi/yvuqg7l5lo6gk8ccys0ow/FoodClassifier.h5?rlkey=bixec1rz520g4y0pklko0aave&st=y7ah7xgf&dl=1'
+local_file_path = 'FoodClassifier.h5'
+
+# Download and load the model
+download_model_from_dropbox(dropbox_url, local_file_path)
+model = load_model_from_file(local_file_path)
+
+# Now you can use 'model' in your Flask API
+
+
+################################
 category={
     0: ['burger','Burger'], 1: ['butter_naan','Butter Naan'], 2: ['chai','Chai'],
     3: ['chapati','Chapati'], 4: ['chole_bhature','Chole Bhature'], 5: ['dal_makhani','Dal Makhani'],
